@@ -80,7 +80,7 @@ function LoginForm() {
       </Card>
 
       <p className="mt-4 text-center text-sm text-slate-500">
-        New to SharkHire?{" "}
+        New to LinkErra?{" "}
         <Link href="/signup" className="font-medium text-indigo-600 hover:underline">
           Create an account
         </Link>

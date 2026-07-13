@@ -62,7 +62,7 @@ export function Navbar() {
             <Briefcase size={18} />
           </span>
           <span className="text-lg font-bold tracking-tight text-slate-900">
-            SharkHire
+            LinkErra
           </span>
         </Link>
 

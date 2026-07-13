@@ -1,4 +1,4 @@
-# SharkHire — Referral Marketplace
+# LinkErra — Referral Marketplace
 
 A platform that connects job seekers directly with **verified employees** willing to
 provide referrals. Seekers build AI-enriched profiles, search referrers by company /
@@ -50,7 +50,7 @@ verification states leave clean seams to add them.
 Copy `.env.example` to `.env` and fill it in:
 
 ```bash
-DATABASE_URL="postgresql://postgres:password@localhost:5432/sharkhire"
+DATABASE_URL="postgresql://postgres:password@localhost:5432/linkerra"
 AUTH_SECRET="…"            # generate with: npx auth secret
 # Optional — credentials login works without these:
 AUTH_GOOGLE_ID=""

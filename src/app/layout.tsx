@@ -7,7 +7,7 @@ import { Navbar } from "~/app/_components/navbar";
 import { Providers } from "~/app/_components/providers";
 
 export const metadata: Metadata = {
-  title: "SharkHire — Referral Marketplace",
+  title: "LinkErra — Referral Marketplace",
   description:
     "Get referred by verified employees at top companies. Direct access to referrers, AI-matched to your profile.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],

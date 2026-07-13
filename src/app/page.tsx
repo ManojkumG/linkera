@@ -70,7 +70,7 @@ export default function Home() {
           Get referred by real employees at the companies you want.
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-          SharkHire connects job seekers directly with verified employees who
+          LinkErra connects job seekers directly with verified employees who
           are open to referring candidates — matched by AI, tracked end-to-end.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
@@ -140,7 +140,7 @@ export default function Home() {
       <section className="rounded-2xl bg-linear-to-br from-indigo-600 to-violet-600 px-8 py-14 text-center text-white">
         <h2 className="text-3xl font-bold">Your next role is one referral away.</h2>
         <p className="mx-auto mt-3 max-w-xl text-indigo-100">
-          Join SharkHire and turn a warm introduction into an interview.
+          Join LinkErra and turn a warm introduction into an interview.
         </p>
         <Link
           href="/signup"
