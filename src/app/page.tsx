@@ -81,7 +81,7 @@ export default function Home() {
             Find a referral
           </Link>
           <Link
-            href="/signup?role=employee"
+            href="/admin"
             className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-medium text-slate-700 hover:bg-slate-50"
           >
             Become a referrer
