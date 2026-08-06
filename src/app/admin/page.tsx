@@ -9,7 +9,6 @@ import {
   LayoutGrid,
   LogOut,
   Mail,
-  PlusCircle,
   ShieldCheck,
   Users,
 } from "lucide-react";
@@ -21,11 +20,9 @@ import {
   CardBody,
   Field,
   Input,
-  Select,
-  Textarea,
 } from "~/app/_components/ui";
 
-type View = "overview" | "verification" | "requests" | "analytics" | "provide-referral";
+type View = "overview" | "verification" | "requests" | "analytics";
 type Mode = "signup" | "login";
 
 type AdminProfile = {
@@ -63,12 +60,6 @@ export default function AdminPage() {
   });
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [referral, setReferral] = useState({
-    jobTitle: "", jobId: "", department: "", employmentType: "", workMode: "", jobLocation: "",
-    referralLink: "", applicationDeadline: "", numberOfOpenings: "", experienceRequired: "",
-    requiredSkills: "", minimumQualification: "", salaryRange: "", jobDescription: "",
-    resumeRequired: "Yes", additionalInstructions: "", preferredContactMethod: "Email", phone: "",
-  });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -154,23 +145,6 @@ export default function AdminPage() {
     window.localStorage.removeItem("linkerra-admin-profile");
     setProfile(null);
     setMessage("Signed out. Please re-enter your company credentials to continue.");
-  };
-
-  const updateReferral = (field: keyof typeof referral, value: string) => {
-    setReferral((current) => ({ ...current, [field]: value }));
-  };
-
-  const saveReferral = (status: "draft" | "published") => {
-    if (status === "published") {
-      const required = ["jobTitle", "department", "employmentType", "workMode", "jobLocation", "referralLink", "applicationDeadline", "experienceRequired", "requiredSkills", "minimumQualification", "jobDescription"] as const;
-      if (required.some((field) => !referral[field].trim())) {
-        setMessage("Please complete all required referral details before publishing.");
-        return;
-      }
-    }
-    window.localStorage.setItem("linkerra-referral-draft", JSON.stringify(referral));
-    setMessage(status === "draft" ? "Your referral has been saved as a draft." : "Referral published successfully. Candidates can now apply using your referral link.");
-    if (status === "published") setView("requests");
   };
 
   const renderMainContent = () => {
@@ -346,64 +320,6 @@ export default function AdminPage() {
           </CardBody>
         </Card>
       ),
-      "provide-referral": (
-        <form
-          className="space-y-6"
-          onSubmit={(event) => {
-            event.preventDefault();
-            saveReferral("published");
-          }}
-        >
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Employee referral</p>
-            <h2 className="mt-1 text-2xl font-bold text-slate-900">Provide a referral</h2>
-            <p className="mt-1 text-sm text-slate-600">Share an open role with candidates. Fields marked * are required.</p>
-          </div>
-
-          <Card className="border-slate-200"><CardBody className="space-y-4">
-            <div><h3 className="font-semibold text-slate-900">Employee information</h3><p className="text-sm text-slate-500">Auto-filled from your company profile</p></div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="Employee name"><Input value={profile.name} readOnly className="bg-slate-50" /></Field>
-              <Field label="Company name"><Input value={profile.company} readOnly className="bg-slate-50" /></Field>
-              <Field label="Department"><Input placeholder="e.g. Engineering" /></Field>
-            </div>
-          </CardBody></Card>
-
-          <Card className="border-slate-200"><CardBody className="space-y-4">
-            <h3 className="font-semibold text-slate-900">Job information</h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="Job title *"><Input required value={referral.jobTitle} onChange={(e) => updateReferral("jobTitle", e.target.value)} placeholder="e.g. Frontend Engineer" /></Field>
-              <Field label="Job ID (optional)"><Input value={referral.jobId} onChange={(e) => updateReferral("jobId", e.target.value)} placeholder="e.g. ENG-104" /></Field>
-              <Field label="Department *"><Input required value={referral.department} onChange={(e) => updateReferral("department", e.target.value)} placeholder="e.g. Engineering" /></Field>
-              <Field label="Employment type *"><Select required value={referral.employmentType} onChange={(e) => updateReferral("employmentType", e.target.value)}><option value="">Select type</option><option>Full-time</option><option>Internship</option><option>Contract</option></Select></Field>
-              <Field label="Work mode *"><Select required value={referral.workMode} onChange={(e) => updateReferral("workMode", e.target.value)}><option value="">Select mode</option><option>Remote</option><option>Hybrid</option><option>On-site</option></Select></Field>
-              <Field label="Job location *"><Input required value={referral.jobLocation} onChange={(e) => updateReferral("jobLocation", e.target.value)} placeholder="City, country" /></Field>
-            </div>
-          </CardBody></Card>
-
-          <Card className="border-slate-200"><CardBody className="space-y-4">
-            <h3 className="font-semibold text-slate-900">Referral details</h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Field label="Referral link *"><Input required type="url" value={referral.referralLink} onChange={(e) => updateReferral("referralLink", e.target.value)} placeholder="https://careers.company.com/..." /></Field>
-              <Field label="Application deadline *"><Input required type="date" value={referral.applicationDeadline} onChange={(e) => updateReferral("applicationDeadline", e.target.value)} /></Field>
-              <Field label="Number of openings (optional)"><Input type="number" min="1" value={referral.numberOfOpenings} onChange={(e) => updateReferral("numberOfOpenings", e.target.value)} /></Field>
-              <Field label="Experience required *"><Input required value={referral.experienceRequired} onChange={(e) => updateReferral("experienceRequired", e.target.value)} placeholder="e.g. 2+ years" /></Field>
-              <Field label="Required skills *"><Input required value={referral.requiredSkills} onChange={(e) => updateReferral("requiredSkills", e.target.value)} placeholder="React, TypeScript, CSS" /></Field>
-              <Field label="Minimum qualification *"><Input required value={referral.minimumQualification} onChange={(e) => updateReferral("minimumQualification", e.target.value)} placeholder="Bachelor's degree or equivalent" /></Field>
-              <Field label="Salary range (optional)"><Input value={referral.salaryRange} onChange={(e) => updateReferral("salaryRange", e.target.value)} placeholder="e.g. $80k–$100k" /></Field>
-            </div>
-            <Field label="Job description *"><Textarea required value={referral.jobDescription} onChange={(e) => updateReferral("jobDescription", e.target.value)} placeholder="Describe the role, responsibilities, and what makes this opportunity exciting." /></Field>
-          </CardBody></Card>
-
-          <Card className="border-slate-200"><CardBody className="space-y-4">
-            <h3 className="font-semibold text-slate-900">Candidate instructions</h3>
-            <div className="grid gap-4 sm:grid-cols-2"><Field label="Resume required"><Select value={referral.resumeRequired} onChange={(e) => updateReferral("resumeRequired", e.target.value)}><option>Yes</option><option>No</option></Select></Field><Field label="Preferred contact method"><Select value={referral.preferredContactMethod} onChange={(e) => updateReferral("preferredContactMethod", e.target.value)}><option>Email</option><option>Chat</option><option>Phone</option></Select></Field><Field label="Phone (optional)"><Input type="tel" value={referral.phone} onChange={(e) => updateReferral("phone", e.target.value)} placeholder="+1 555 000 0000" /></Field></div>
-            <Field label="Additional instructions (optional)" hint="Example: Mention employee ID, preferred resume format, portfolio link, etc."><Textarea value={referral.additionalInstructions} onChange={(e) => updateReferral("additionalInstructions", e.target.value)} placeholder="Add any instructions for candidates." /></Field>
-          </CardBody></Card>
-
-          <div className="flex flex-wrap justify-end gap-3 pb-4"><Button type="button" variant="outline" onClick={() => saveReferral("draft")}>Save as draft</Button><Button type="submit"><PlusCircle size={16} /> Publish referral</Button></div>
-        </form>
-      ),
     }[view];
 
     return (
@@ -420,14 +336,6 @@ export default function AdminPage() {
           </div>
 
           <nav className="mt-6 space-y-2">
-            <button
-              type="button"
-              onClick={() => { setView("provide-referral"); setMessage(null); }}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            >
-              <PlusCircle size={17} />
-              Provide referral
-            </button>
             {navItems.map((item) => (
               <button
                 key={item.id}
